@@ -6,5 +6,5 @@ using SKCell;
 
 public class CommonReference : MonoSingleton<CommonReference>
 {
-    
+    public GameObject linePrefab;
 }
