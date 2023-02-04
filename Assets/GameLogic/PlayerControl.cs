@@ -29,9 +29,9 @@ public class PlayerControl : MonoBehaviour
     {
         lastPos = transform.position;
         
-        currentLine = Instantiate(LinePrefabs, lastPos, Quaternion.identity).GetComponent<Line>();
-        currentLine.SetLineWidth(0.25f);
-        currentLine.UsePhysics(false);
+        //currentLine = Instantiate(LinePrefabs, lastPos, Quaternion.identity).GetComponent<Line>();
+        //currentLine.SetLineWidth(0.25f);
+        //currentLine.UsePhysics(false);
     }
     void Update()
     {
@@ -53,7 +53,7 @@ public class PlayerControl : MonoBehaviour
         {
             int count = line.positionCount++;
             line.SetPosition(count, transform.position);
-            currentLine.AddPoint(transform.position);
+            //currentLine.AddPoint(transform.position);
             updateTimer = 0f;
             pCount++;
             if(pCount>0 && pCount%60==0)
