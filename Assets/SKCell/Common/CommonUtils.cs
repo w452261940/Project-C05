@@ -1155,13 +1155,14 @@ namespace SKCell
         /// <param name="action">Action called per frame.</param>
         /// <param name="onFinish">Action called at the end of the procedure.</param>
         /// <param name="id"></param>
-        public static void StartProcedure(SKCurve curve, float time, Action<float> action, Action<float> onFinish = null, string id = "")
+        public static Coroutine StartProcedure(SKCurve curve, float time, Action<float> action, Action<float> onFinish = null, string id = "")
         {
             Coroutine cr = StartCoroutine(ProcedureCR(curve, 0, 1, time, action, onFinish), true);
             if (id.Length > 0)
             {
                 InsertOrUpdateKeyValueInDictionary(procedureDict, id, cr);
             }
+            return cr;
         }
 
         /// <summary>
@@ -1473,14 +1474,13 @@ namespace SKCell
         /// </summary>
         /// <param name="dir"></param>
         /// <returns></returns>
-        public static int Vector2Angle(Vector3 dir)
+        public static float Vector2Angle(Vector3 dir)
         {
             dir = dir.normalized;
             float n = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             if (n < 0) n += 360;
-            int angle = Mathf.RoundToInt(n);
 
-            return angle;
+            return n;
         }
 
         /// <summary>
