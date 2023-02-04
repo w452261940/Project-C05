@@ -7,4 +7,6 @@ using SKCell;
 public class CommonReference : MonoSingleton<CommonReference>
 {
     public GameObject linePrefab;
+    public Shader rootShader;
+    public GameObject hitEffect;
 }
