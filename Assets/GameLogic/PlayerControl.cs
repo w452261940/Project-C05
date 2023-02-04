@@ -226,6 +226,8 @@ public class PlayerControl : MonoBehaviour
         float growTime = Random.Range(0.9f, 1.2f) *((float)branchDepth/(depth+1)) * branchLength +0.3f;
         CommonUtils.StartProcedure(SKCurve.QuadraticIn, growTime, (t) =>
         {
+            if (!lr)
+                return;
             int count = lr.positionCount++;
             branch.transform.position += Vector3.Lerp(branchDir, branchDir2, t) * speed * Time.fixedDeltaTime;
             lr.SetPosition(count, branch.transform.position);
@@ -252,6 +254,7 @@ public class PlayerControl : MonoBehaviour
         {
             active = false;
             InstantiateEffect(CommonReference.instance.hitEffect, transform.position);
+            Coordinator.instance.OnPlayerDie();
         }
     }
 

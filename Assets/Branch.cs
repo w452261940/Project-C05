@@ -24,6 +24,9 @@ public class Branch : MonoBehaviour
     {
         if (active)
         {
+            if (!playerControl)
+                return;
+
             timer += Time.fixedDeltaTime;
             if (timer > 5f)
             {

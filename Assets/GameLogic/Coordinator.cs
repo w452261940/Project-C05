@@ -4,18 +4,19 @@ using UnityEngine;
 
 using SKCell;
 
-public class Coordinator : MonoBehaviour
+public class Coordinator : MonoSingleton<Coordinator>
 {
     public LevelState levelState = LevelState.Ready;
     public Vector3[] startPoints;
 
-    public Animator p1CFAnim, p2CFAnim, startScreenAnim;
+    public Animator p1CFAnim, p2CFAnim, startScreenAnim, retryScreenAnim;
     bool player0Ready = false;
     bool player1Ready = false;
 
     PlayerControl player0, player1;
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         InitializeMap();
     }
 
@@ -50,6 +51,20 @@ public class Coordinator : MonoBehaviour
                 PlayerReady(1);
             }
         }
+
+        if(levelState == LevelState.End)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                ReloadLevel();
+            }
+        }
+    }
+
+    void ReloadLevel()
+    {
+        string name = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(name);
     }
 
     public void PlayerReady(int index)
@@ -66,14 +81,23 @@ public class Coordinator : MonoBehaviour
         }
         if(player0Ready && player1Ready)
         {
+            startScreenAnim.Play("StartLevelOut");
             CommonUtils.InvokeAction(1f,  StartLevel);
         }
     }
 
+    public void OnPlayerDie()
+    {
+        retryScreenAnim.Play("RetryIn");
+        player0.active = false;
+        player1.active = false;
+
+        levelState = LevelState.End;
+    }
     public void StartLevel()
     {
         levelState = LevelState.Start;
-        startScreenAnim.Play("StartLevelOut");
+
 
         player0.active = true;
         player1.active = true;
@@ -84,5 +108,6 @@ public class Coordinator : MonoBehaviour
 public enum LevelState
 {
     Ready,
-    Start
+    Start,
+    End
 }
